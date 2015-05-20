@@ -27,7 +27,7 @@ void traceback(FILE *fp)
 	printf("first function in table name: %s ", functions[0].name);
 
 	/*get the ebp*/
-	ebp=get_frame_pointer();
+	//ebp=get_frame_pointer();
 	//printf("Frame address is %p\n",ebp);
 
 	
