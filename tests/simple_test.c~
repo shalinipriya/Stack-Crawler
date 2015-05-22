@@ -10,7 +10,6 @@ void bar(int x, int y)
 
 void foo() {
   bar (5,17);
-//traceback(stdout);
 }
 
 int main (int argc, char **argv)

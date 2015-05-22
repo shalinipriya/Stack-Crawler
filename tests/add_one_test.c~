@@ -12,12 +12,9 @@
 
 int main()
 {
-	int a=2;
-
   printf("add_one1(7) = %d\n", add_one1(7));
 
   printf("add_one2(7) = %d\n", add_one2(7));
-	printf ("a=%d\n",a);
 
   return 0;
 }

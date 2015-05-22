@@ -9,5 +9,6 @@
 
 
 void *get_frame_pointer();
+void *get_stack_pointer();
 
 #endif /* __TRACEBACK_UTILS_H */

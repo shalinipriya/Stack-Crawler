@@ -6,10 +6,20 @@
  *  @author Harry Q. Bovik (hqbovik)
  *  @bug Unimplemented
  */
-//#include "traceback_utils.h"
+#include "traceback_utils.h"
 #include "traceback_internal.h"
 
-void *get_frame_pointer();
+int get_function(void *addr) {
+	int i;	
+	for(i=0;i<FUNCTS_MAX_NUM;i++) {
+	//	printf("function  -%p %s, incoming address -%p\n", (int*)functions[i].addr, functions[i].name, (int*)addr);
+		if((int*)addr == (int*)functions[i].addr)
+			return i;
+	}
+	return -1;
+}
+
+
 void traceback(FILE *fp)
 {
 	/* the following just makes a sample access to "functions" array. 
@@ -18,17 +28,28 @@ void traceback(FILE *fp)
 	 * the symbol. So be sure to always do something with functions */
 
 	/* remove this line once you've got real code here */
-	/*int i;
-	for(i=0;i<sizeof(functions)/sizeof(functsym_t);i++) {
-		printf("first function in table name: %s ", functions[i].name);
-		printf("address %p\n", functions[i].addr);
-	}*/
-	void *ebp;
-	printf("first function in table name: %s ", functions[0].name);
+	int i, count=0,index;
+	void *ebp, *old_ebp;
+	int *return_address, *function_address;
+	printf("first function in table name: %s\n", functions[0].name);
 
 	/*get the ebp*/
-	//ebp=get_frame_pointer();
-	//printf("Frame address is %p\n",ebp);
+	ebp=get_frame_pointer();
+	
+	while (1) {
+		old_ebp=(int*)(*ebp);
+//		printf("ebp %p\n",(int*)(ebp));
+//		printf("addres on stack where return address is stored %p\n",(char*)(ebp)+4);
+		return_address = *(int*)((char*)ebp+4);
+//		printf("Return address %p\n",return_address);
+//		printf("Function address %p\n",(char*)return_address+2);
+		index = get_function((char*)return_address+2);
+		if(index!=-1)
+			printf("%s\n", functions[index].name); 
+		ebp=old_ebp;
+		count++;
+		if(count==3) break;
+	}
 
 	
 }
